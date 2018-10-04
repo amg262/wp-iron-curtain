@@ -1,0 +1,10 @@
+$ cat .gitignore
+# exclude node_modules 
+/node_modules
+
+# exclude built js
+/assets/js/*
+/vendor/
+/data/v1/*
+/data/v2/*
+/data/wc-bom/*
