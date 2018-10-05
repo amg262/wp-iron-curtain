@@ -8,8 +8,8 @@
 
 namespace Netraa\WPIRC;
 
-use WP_Post;
 use Netraa\WPB\SettingsAPI;
+use WP_Post;
 
 class Settings {
 
@@ -17,7 +17,7 @@ class Settings {
 
 	function __construct() {
 
-		$this->settings_api = new \Netraa\WPB\SettingsAPI();
+		$this->settings_api = new \Netraa\WPIRC\SettingsAPI();
 
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
@@ -33,16 +33,6 @@ class Settings {
 		$this->settings_api->admin_init();
 
 		//var_dump( get_option( 'wedevs_basics' ) );
-	}
-
-	function admin_menu() {
-		add_submenu_page('wp-bom','Settings API','Settings API','manage_options','wp-bom-settingssss',[$this,'plugin_page']);
-
-		echo '';
-		add_options_page( 'Settings API', 'Settings API', 'manage_options', 'wp-bom-settings', [
-			$this,
-			'plugin_page',
-		] );
 	}
 
 	function get_settings_sections() {
@@ -94,33 +84,47 @@ class Settings {
 
 		$settings_fields = [
 			'wcb_settings' => [
+
 				[
-					'name'              => 'key',
-					'label'             => __( 'Text Input', 'wedevs' ),
-					'desc'              => __( 'Text input description', 'wedevs' ),
-					'type'              => 'text',
-					'default'           => 'Title',
-					'sanitize_callback' => 'intval',
-				],
-				[
-					'name'              => 'number_input',
-					'label'             => __( 'Number Input', 'wedevs' ),
+					'name'              => 'failed_logins',
+					'label'             => __( 'Failed Logins for Ban', 'wedevs' ),
 					'desc'              => __( 'Number field with validation callback `intval`', 'wedevs' ),
 					'type'              => 'number',
 					'default'           => 'Title',
 					'sanitize_callback' => 'intval',
 				],
 				[
-					'name'  => 'textarea',
-					'label' => __( 'Textarea Input', 'wedevs' ),
+					'name'  => 'Warning Text',
+					'label' => __( 'Login Warning Text', 'wedevs' ),
 					'desc'  => __( 'Textarea description', 'wedevs' ),
 					'type'  => 'textarea',
 				],
 				[
-					'name'  => 'checkbox',
-					'label' => __( 'Checkbox', 'wedevs' ),
+					'name'  => 'Day No. Parameter',
+					'label' => __( 'Day No. Parameter', 'wedevs' ),
 					'desc'  => __( 'Checkbox Label', 'wedevs' ),
 					'type'  => 'checkbox',
+				],
+
+				[
+					'name'  => 'Secret Key',
+					'label' => __( 'Secret Key', 'wedevs' ),
+					'desc'  => __( 'Checkbox Label', 'wedevs' ),
+					'type'  => 'checkbox',
+				],
+				[
+					'name'  => 'Enable Cloak on Log Out',
+					'label' => __( 'Secret Key', 'wedevs' ),
+					'desc'  => __( 'Checkbox Label', 'wedevs' ),
+					'type'  => 'checkbox',
+				],
+				[
+					'name'              => 'Secret Parameter',
+					'label'             => __( 'Secret Key ', 'wedevs' ),
+					'desc'              => __( '&sk=*this-field*', 'wedevs' ),
+					'type'              => 'text',
+					'default'           => '',
+					'sanitize_callback' => 'intval',
 				],
 				[
 					'name'    => 'radio',
@@ -304,6 +308,15 @@ class Settings {
 		];
 
 		return $settings_fields;
+	}
+
+	function admin_menu() {
+
+		echo '';
+		add_options_page( 'Iron Curtain', 'Iron Curtain', 'manage_options', 'wp-irc-settings', [
+			$this,
+			'plugin_page',
+		] );
 	}
 
 	function plugin_page() {
