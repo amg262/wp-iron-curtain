@@ -63,6 +63,20 @@ class Plugin {
 		return self::$instance;
 	}
 
+	/**
+	 * Add settings action link to the plugins page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_action_links( $links ) {
+		return array_merge(
+			[
+				'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '">' . __( 'Settings',
+						$this->plugin_slug ) . '</a>',
+			],
+			$links
+		);
+	}
 
 	/**
 	 * Return the plugin slug.

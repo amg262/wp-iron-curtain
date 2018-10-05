@@ -81,11 +81,11 @@ class Settings {
 		}
 
 
-		require __DIR__ . '/Database.php';
+		//	require __DIR__ . '/Database.php';
 
-		$db              = new Database();
-		$set             = $db->query();
-		echo json_encode( $set ),
+		//	$db              = new Database();
+		//	$set             = $db->query();
+		//	echo json_encode( $set ),
 
 		$settings_fields = [
 			'wp_irc_settings' => [
@@ -98,30 +98,70 @@ class Settings {
 					'default'           => 'Title',
 					'sanitize_callback' => 'intval',
 				],
+//				[
+//					'name'  => 'Warning Text',
+//					'label' => __( 'Login Warning Text', 'wpirc' ),
+//					'desc'  => __( 'Textarea description', 'wpirc' ),
+//					'type'  => 'textarea',
+//				],
+//
+//				[
+//					'name'  => 'Secret Key',
+//					'label' => __( 'Secret Key', 'wpirc' ),
+//					'desc'  => __( 'Checkbox Label', 'wpirc' ),
+//					'type'  => 'checkbox',
+//				],
+//				[
+//					'name'  => 'Enable Cloak on Log Out',
+//					'label' => __( 'Secret Key', 'wpirc' ),
+//					'desc'  => __( 'Checkbox Label', 'wpirc' ),
+//					'type'  => 'checkbox',
+//				],
 				[
-					'name'  => 'Warning Text',
-					'label' => __( 'Login Warning Text', 'wpirc' ),
-					'desc'  => __( 'Textarea description', 'wpirc' ),
-					'type'  => 'textarea',
+					'name'              => 'Failed Login Warning',
+					'label'             => __( 'Failed Login Warning ', 'wpirc' ),
+					'desc'              => __( 'Warning', 'wpirc' ),
+					'type'              => 'number',
+					'default'           => '3',
+					'sanitize_callback' => 'intval',
 				],
 				[
-					'name'  => 'Day No. Parameter',
-					'label' => __( 'Day No. Parameter', 'wpirc' ),
-					'desc'  => __( 'Checkbox Label', 'wpirc' ),
-					'type'  => 'checkbox',
+					'name'              => 'Failed Login Lockout',
+					'label'             => __( 'Failed Login Lockout ', 'wpirc' ),
+					'desc'              => __( 'Warning', 'wpirc' ),
+					'type'              => 'number',
+					'default'           => '5',
+					'sanitize_callback' => 'intval',
 				],
+				[
+					'name'              => 'Failed Login Ban',
+					'label'             => __( 'Failed Login Ban ', 'wpirc' ),
+					'desc'              => __( 'Warning', 'wpirc' ),
+					'type'              => 'number',
+					'default'           => '10',
+					'class'             => 'button',
+					'sanitize_callback' => 'intval',
+				],
+				[
+					'name'              => 'Ban Hours',
+					'label'             => __( 'Ban Hours ', 'wpirc' ),
+					'desc'              => __( 'Hours', 'wpirc' ),
+					'type'              => 'number',
+					'default'           => '3600',
+					'sanitize_callback' => 'intval',
+				],
+				[
+					'name'    => 'multicheck',
+					'label'   => __( 'URL Parameters', 'wpirc' ),
+					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
+					'type'    => 'multicheck',
+					'options' => [
+						'Cloak' => 'Cloak',
+						'Date'  => 'Date',
+						'Key'   => 'Key',
+						'four'  => 'Four',
+					],
 
-				[
-					'name'  => 'Secret Key',
-					'label' => __( 'Secret Key', 'wpirc' ),
-					'desc'  => __( 'Checkbox Label', 'wpirc' ),
-					'type'  => 'checkbox',
-				],
-				[
-					'name'  => 'Enable Cloak on Log Out',
-					'label' => __( 'Secret Key', 'wpirc' ),
-					'desc'  => __( 'Checkbox Label', 'wpirc' ),
-					'type'  => 'checkbox',
 				],
 				[
 					'name'              => 'Secret Parameter',
@@ -131,47 +171,28 @@ class Settings {
 					'default'           => '',
 					'sanitize_callback' => 'intval',
 				],
+
 				[
-					'name'    => 'radio',
-					'label'   => __( 'Radio Button', 'wpirc' ),
-					'desc'    => __( 'A radio button', 'wpirc' ),
-					'type'    => 'radio',
-					'options' => [
-						'yes' => 'Yes',
-						'no'  => 'No',
-					],
+					'name'    => 'wysiwyg',
+					'label'   => __( 'Advanced Editor', 'wpirc' ),
+					'desc'    => __( 'WP_Editor description', 'wpirc' ),
+					'type'    => 'wysiwyg',
+					'default' => '',
 				],
-				[
-					'name'    => 'multicheck',
-					'label'   => __( 'Multile checkbox', 'wpirc' ),
-					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
-					'type'    => 'multicheck',
-					'options' => [
-						'one'   => 'One',
-						'two'   => 'Two',
-						'three' => 'Three',
-						'four'  => 'Four',
-					],
-				],
+
 				[
 					'name'    => 'selectbox',
-					'label'   => __( 'A Dropdown', 'wpirc' ),
-					'desc'    => __( 'Dropdown description', 'wpirc' ),
+					'label'   => __( 'Enable Cloak on Logout', 'wpirc' ),
+					'desc'    => __( 'Enable Cloak on Logout', 'wpirc' ),
 					'type'    => 'select',
 					'default' => 'no',
 					'options' => [
 						//json_encode( $arr )
-						//'yes' => 'Yes',
-						//'no'  => 'No',
+						'yes' => 'Yes',
+						'no'  => 'No',
 					],
 				],
-				[
-					'name'    => 'password',
-					'label'   => __( 'Password', 'wpirc' ),
-					'desc'    => __( 'Password description', 'wpirc' ),
-					'type'    => 'password',
-					'default' => '',
-				],
+
 				[
 					'name'    => 'file',
 					'label'   => __( 'File', 'wpirc' ),
@@ -182,130 +203,130 @@ class Settings {
 						'button_label' => 'Choose Image',
 					],
 				],
+//			[
+//					'name'    => 'password',
+//					'label'   => __( 'Password', 'wpirc' ),
+//					'desc'    => __( 'Password description', 'wpirc' ),
+//					'type'    => 'password',
+//					'default' => '',
+//				],
+//				[
+//					'name'    => 'color',
+//					'label'   => __( 'Color', 'wpirc' ),
+//					'desc'    => __( 'Color description', 'wpirc' ),
+//					'type'    => 'color',
+//					'default' => '',
+//				],
+//				[
+//					'name'    => 'password',
+//					'label'   => __( 'Password', 'wpirc' ),
+//					'desc'    => __( 'Password description', 'wpirc' ),
+//					'type'    => 'password',
+//					'default' => '',
+//				],
 
-				[
-					'name'    => 'color',
-					'label'   => __( 'Color', 'wpirc' ),
-					'desc'    => __( 'Color description', 'wpirc' ),
-					'type'    => 'color',
-					'default' => '',
-				],
-				[
-					'name'    => 'password',
-					'label'   => __( 'Password', 'wpirc' ),
-					'desc'    => __( 'Password description', 'wpirc' ),
-					'type'    => 'password',
-					'default' => '',
-				],
-				[
-					'name'    => 'wysiwyg',
-					'label'   => __( 'Advanced Editor', 'wpirc' ),
-					'desc'    => __( 'WP_Editor description', 'wpirc' ),
-					'type'    => 'wysiwyg',
-					'default' => '',
-				],
-				[
-					'name'    => 'multicheck',
-					'label'   => __( 'Multile checkbox', 'wpirc' ),
-					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
-					'type'    => 'multicheck',
-					'default' => [ 'one' => 'one', 'four' => 'four' ],
-					'options' => [
-						'one'   => 'One',
-						'two'   => 'Two',
-						'three' => 'Three',
-						'four'  => 'Four',
-					],
-				],
-				[
-					'name'    => 'selectbox',
-					'label'   => __( 'A Dropdown', 'wpirc' ),
-					'desc'    => __( 'Dropdown description', 'wpirc' ),
-					'type'    => 'select',
-					'options' => [
-						'yes' => 'Yes',
-						'no'  => 'No',
-					],
-				],
-				[
-					'name'    => 'password',
-					'label'   => __( 'Password', 'wpirc' ),
-					'desc'    => __( 'Password description', 'wpirc' ),
-					'type'    => 'password',
-					'default' => '',
-				],
-				[
-					'name'    => 'file',
-					'label'   => __( 'File', 'wpirc' ),
-					'desc'    => __( 'File description', 'wpirc' ),
-					'type'    => 'file',
-					'default' => '',
-				],
-				[
-					'name'    => 'text',
-					'label'   => __( 'Text Input', 'wpirc' ),
-					'desc'    => __( 'Text input description', 'wpirc' ),
-					'type'    => 'text',
-					'default' => 'Title',
-				],
-				[
-					'name'  => 'textarea',
-					'label' => __( 'Textarea Input', 'wpirc' ),
-					'desc'  => __( 'Textarea description', 'wpirc' ),
-					'type'  => 'textarea',
-				],
-				[
-					'name'  => 'checkbox',
-					'label' => __( 'Checkbox', 'wpirc' ),
-					'desc'  => __( 'Checkbox Label', 'wpirc' ),
-					'type'  => 'checkbox',
-				],
-				[
-					'name'    => 'radio',
-					'label'   => __( 'Radio Button', 'wpirc' ),
-					'desc'    => __( 'A radio button', 'wpirc' ),
-					'type'    => 'radio',
-					'options' => [
-						'yes' => 'Yes',
-						'no'  => 'No',
-					],
-				],
-				[
-					'name'    => 'multicheck',
-					'label'   => __( 'Multile checkbox', 'wpirc' ),
-					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
-					'type'    => 'multicheck',
-					'options' => [
-						'one'   => 'One',
-						'two'   => 'Two',
-						'three' => 'Three',
-						'four'  => 'Four',
-					],
-				],
-				[
-					'name'    => 'selectbox',
-					'label'   => __( 'A Dropdown', 'wpirc' ),
-					'desc'    => __( 'Dropdown description', 'wpirc' ),
-					'type'    => 'select',
-					'options' => [
-						'yes' => 'Yes',
-						'no'  => 'No',
-					],
-				],
-				[
-					'name'    => 'password',
-					'label'   => __( 'Password', 'wpirc' ),
-					'desc'    => __( 'Password description', 'wpirc' ),
-					'type'    => 'password',
-					'default' => '',
-				],
-				[
-					'name'    => 'file',
-					'label'   => __( 'File', 'wpirc' ),
-					'desc'    => __( 'File description', 'wpirc' ),
-					'type'    => 'file',
-					'default' => '',
-				],
+//				[
+//					'name'    => 'multicheck',
+//					'label'   => __( 'Multile checkbox', 'wpirc' ),
+//					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
+//					'type'    => 'multicheck',
+//					'default' => [ 'one' => 'one', 'four' => 'four' ],
+//					'options' => [
+//						'one'   => 'One',
+//						'two'   => 'Two',
+//						'three' => 'Three',
+//						'four'  => 'Four',
+//					],
+//				],
+//				[
+//					'name'    => 'selectbox',
+//					'label'   => __( 'A Dropdown', 'wpirc' ),
+//					'desc'    => __( 'Dropdown description', 'wpirc' ),
+//					'type'    => 'select',
+//					'options' => [
+//						'yes' => 'Yes',
+//						'no'  => 'No',
+//					],
+//				],
+//				[
+//					'name'    => 'password',
+//					'label'   => __( 'Password', 'wpirc' ),
+//					'desc'    => __( 'Password description', 'wpirc' ),
+//					'type'    => 'password',
+//					'default' => '',
+//				],
+//				[
+//					'name'    => 'file',
+//					'label'   => __( 'File', 'wpirc' ),
+//					'desc'    => __( 'File description', 'wpirc' ),
+//					'type'    => 'file',
+//					'default' => '',
+//				],
+//				[
+//					'name'    => 'text',
+//					'label'   => __( 'Text Input', 'wpirc' ),
+//					'desc'    => __( 'Text input description', 'wpirc' ),
+//					'type'    => 'text',
+//					'default' => 'Title',
+//				],
+//				[
+//					'name'  => 'textarea',
+//					'label' => __( 'Textarea Input', 'wpirc' ),
+//					'desc'  => __( 'Textarea description', 'wpirc' ),
+//					'type'  => 'textarea',
+//				],
+//				[
+//					'name'  => 'checkbox',
+//					'label' => __( 'Checkbox', 'wpirc' ),
+//					'desc'  => __( 'Checkbox Label', 'wpirc' ),
+//					'type'  => 'checkbox',
+//				],
+//				[
+//					'name'    => 'radio',
+//					'label'   => __( 'Radio Button', 'wpirc' ),
+//					'desc'    => __( 'A radio button', 'wpirc' ),
+//					'type'    => 'radio',
+//					'options' => [
+//						'yes' => 'Yes',
+//						'no'  => 'No',
+//					],
+//				],
+//				[
+//					'name'    => 'multicheck',
+//					'label'   => __( 'Multile checkbox', 'wpirc' ),
+//					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
+//					'type'    => 'multicheck',
+//					'options' => [
+//						'one'   => 'One',
+//						'two'   => 'Two',
+//						'three' => 'Three',
+//						'four'  => 'Four',
+//					],
+//				],
+//				[
+//					'name'    => 'selectbox',
+//					'label'   => __( 'A Dropdown', 'wpirc' ),
+//					'desc'    => __( 'Dropdown description', 'wpirc' ),
+//					'type'    => 'select',
+//					'options' => [
+//						'yes' => 'Yes',
+//						'no'  => 'No',
+//					],
+//				],
+//				[
+//					'name'    => 'password',
+//					'label'   => __( 'Password', 'wpirc' ),
+//					'desc'    => __( 'Password description', 'wpirc' ),
+//					'type'    => 'password',
+//					'default' => '',
+//				],
+//				[
+//					'name'    => 'file',
+//					'label'   => __( 'File', 'wpirc' ),
+//					'desc'    => __( 'File description', 'wpirc' ),
+//					'type'    => 'file',
+//					'default' => '',
+//				],
 			],
 			'wp_irc_logins'   => [
 

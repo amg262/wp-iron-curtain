@@ -264,9 +264,9 @@ class Admin {
             <tr>
                 <?php
 
-                echo '<h1>'.$wcb_options['key'].'</h1>';
-                echo '<h1>'.md5($wcb_options['key']).'</h1>';
-                echo '<h1>'.$wcb_options['key'].'</h1>';
+//                echo '<h1>'.$wcb_options['key'].'</h1>';
+//                echo '<h1>'.md5($wcb_options['key']).'</h1>';
+//                echo '<h1>'.$wcb_options['key'].'</h1>';
 
 
                 ?>
@@ -438,9 +438,6 @@ class Admin {
 		$settings = [
 			'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '">' . __( 'Settings',
 					$this->plugin_slug ) . '</a>',
-			'parts'    => '<a href="edit.php?post_type=part">' . __( 'Parts', 'wp-bom' ) . '</a>',
-			'assembly' => '<a href="edit.php?post_type=assembly">' . __( 'Assembly', 'wp-bom' ) . '</a>',
-			'options'  => '<a href="admin.php?page=wp-bom-settings">' . __( 'Options', 'wp-bom' ) . '</a>',
 		];
 		$actions  = array_merge( $settings, $links );
 

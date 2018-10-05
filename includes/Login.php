@@ -14,19 +14,18 @@ namespace Netraa\WPIRC;
  */
 class Login {
 
+	private $ins;
 
 	public function __construct() {
+
+		// your code
+		require __DIR__ . '/Database.php';
 
 		//add_action( 'wp_head', [ $this, 'that' ] );
 		add_action( 'wp_login', [ $this, 'site_login' ], 10, 2 );
 		//add_action( 'wp_logout', );
+		add_action( 'wp_login_failed', [ $this, 'pippin_login_fail' ] );  // hook failed login
 
-		add_action( 'admin_init', [ $this, 'upgrade_data' ] );
-//
-		//register_activation_hook( __FILE__, [ $this, 'upgrade_data' ] );
-//		add_action( 'admin_init', [ $this, 'upgrade_data' ] );
-		add_action( 'admin_init', [ $this, 'install_data' ] );
-//		add_action( 'admin_init', [ $this, 'delete_db' ] );
 	}
 
 
@@ -42,8 +41,17 @@ class Login {
 
 		if ( $_GET['cloak'] === 'on' ) {
 			?>
-          <script>swal('boo');</script>
+            <script>swal('boo');</script>
 			<?php
+		}
+	}
+
+	function pippin_login_fail( $username ) {
+		$referrer = $_SERVER['HTTP_REFERER'];  // where did the post submission come from?
+		// if there's a valid referrer, and it's not the default log-in screen
+		if ( ! empty( $referrer ) && ! strstr( $referrer, 'wp-login' ) && ! strstr( $referrer, 'wp-admin' ) ) {
+			wp_redirect( home_url() . '/?login=failed' );  // let's append some information (login=failed) to the URL for the theme to use
+			exit;
 		}
 	}
 
@@ -66,9 +74,7 @@ class Login {
 
 
 	function site_login( $user_login, $user ) {
-
-		// your code
-		require __DIR__ . '/Database.php';
+		$ins = new Database();
 
 		$user = new \WP_User( $user );
 
@@ -85,9 +91,8 @@ class Login {
 			],
 		];
 
-		$ins = new Database();
-		$ins->insert_login( $raw );
-		$this->that();
+		$ins->insert_login( $user->ID, $user->user_nicename, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'], $_SERVER['HTTP_REFERER'], 'login' );
+		//$this->that();
 	}
 
 	function that() {

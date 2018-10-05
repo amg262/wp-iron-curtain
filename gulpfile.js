@@ -24,7 +24,7 @@ var paths = {
 	images: 'images/',
 	js: 'js/',
 	css: 'css/',
-	export: 'export/',
+	//export: 'export/',
 	endpoint: 'Endpoint/',
 	home: 'wc-bom.php',
 	img: 'assets/images/*',
@@ -66,7 +66,7 @@ gulp.task('cssnano', function () {
  */
 gulp.task('uglify', function () {
 
-	gulp.src(paths.assets + 'js/*.js').pipe(uglify()).pipe(rename({suffix: '.min'})).pipe(gulp.dest(paths.dist + 'js/'));
+	gulp.src(paths.assets + 'js/*').pipe(uglify()).pipe(rename({suffix: '.min'})).pipe(gulp.dest(paths.dist + 'js/'));
 });
 //
 //gulp.task('zip', function() {

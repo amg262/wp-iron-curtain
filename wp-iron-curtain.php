@@ -26,20 +26,49 @@
 namespace Netraa\WPIRC;
 
 // If this file is called directly, abort.
+use Symfony\Component\VarDumper\Cloner\Data;
+
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+/**
+ *
+ */
 define( "DEFAULT_LOG", __DIR__ . "/assets/default.log" );
 
-
+/**
+ *
+ */
 define( 'WP_IRC_TBL', 'wp_irc_login' );
+/**
+ *
+ */
+define( 'WP_IRC_', 'wp_irc_' );
+/**
+ *
+ */
 const WP_IRC_LOCAL = 'http://wp.local';
 
-const WP_IRC_JS      = 'wp-irc.js';
-const WP_IRC_JS_MIN  = 'wp-irc.min.js';
-const WP_IRC_CSS     = 'wp-irc.css';
+/**
+ *
+ */
+const WP_IRC_JS = 'wp-irc.js';
+/**
+ *
+ */
+const WP_IRC_JS_MIN = 'wp-irc.min.js';
+/**
+ *
+ */
+const WP_IRC_CSS = 'wp-irc.css';
+/**
+ *
+ */
 const WP_IRC_MIN_CSS = 'wp-irc.min.css';
-const PATHS          = [
+/**
+ *
+ */
+const PATHS = [
 	'local'       => WP_IRC_LOCAL,
 	'dir'         => __DIR__,
 	'wp-irc'      => '/wp-iron-curtain.php',
@@ -68,7 +97,10 @@ const PATHS          = [
 	'scripts'     => [ 'admin', 'shortcode', 'widget', 'wp-irc' ],
 
 ];
-const DIST_JS        = __DIR__ . '/dist/';
+/**
+ *
+ */
+const DIST_JS = __DIR__ . '/dist/';
 
 
 /*
@@ -80,34 +112,37 @@ const DIST_JS        = __DIR__ . '/dist/';
  *  * @since 1.0.0
  */
 try {
-	spl_autoload_register( function ( $class ) {
+	spl_autoload_register( /**
+	 * @param $class
+	 */
+		function ( $class ) {
 
-		// project-specific namespace prefix
-		$prefix = __NAMESPACE__;
+			// project-specific namespace prefix
+			$prefix = __NAMESPACE__;
 
-		// base directory for the namespace prefix
-		$base_dir = __DIR__ . '/includes/';
+			// base directory for the namespace prefix
+			$base_dir = __DIR__ . '/includes/';
 
-		// does the class use the namespace prefix?
-		$len = strlen( $prefix );
-		if ( strncmp( $prefix, $class, $len ) !== 0 ) {
-			// no, move to the next registered autoloader
-			return;
-		}
+			// does the class use the namespace prefix?
+			$len = strlen( $prefix );
+			if ( strncmp( $prefix, $class, $len ) !== 0 ) {
+				// no, move to the next registered autoloader
+				return;
+			}
 
-		// get the relative class name
-		$relative_class = substr( $class, $len );
+			// get the relative class name
+			$relative_class = substr( $class, $len );
 
-		// replace the namespace prefix with the base directory, replace namespace
-		// separators with directory separators in the relative class name, append
-		// with .php
-		$file = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
+			// replace the namespace prefix with the base directory, replace namespace
+			// separators with directory separators in the relative class name, append
+			// with .php
+			$file = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
 
-		// if the file exists, require it
-		if ( file_exists( $file ) ) {
-			require $file;
-		}
-	} );
+			// if the file exists, require it
+			if ( file_exists( $file ) ) {
+				require $file;
+			}
+		} );
 } catch ( \Exception $e ) {
 }
 
@@ -118,17 +153,16 @@ try {
  */
 function init() {
 
-	echo json_encode( $_SERVER );
+	//echo json_encode( $_SERVER );
+	$settings = new Settings();
 
-	$WPIRC           = Plugin::get_instance();
-	$WPIRC_shortcode = Shortcode::get_instance();
-	$WPIRC_admin     = Admin::get_instance();
-	$log             = new Login();
-	//$in              = new Install();
-	//$WPIRC_rest      = Endpoint\Example::get_instance();
+	$admin    = Admin::get_instance();
 
-	$WPIRC_settings = new Settings();
-//	require __DIR__ . '/dist/acf/acf.php';
+	$plugin = Plugin::get_instance();
+	$short  = Shortcode::get_instance();
+	$widget = new Widget();
+
+	$log = new Login();
 
 
 }
@@ -147,7 +181,7 @@ function widget_init() {
 }
 
 add_action( 'widgets_init', 'Netraa\\WPIRC\\widget_init' );
-
+//create_tbl
 /**
  * Register activation and deactivation hooks
  */
@@ -156,9 +190,10 @@ register_deactivation_hook( __FILE__, [ 'Netraa\\WPIRC\\Plugin', 'deactivate' ] 
 
 add_action( 'init', 'Netraa\\WPIRC\\load_assets' );
 
+/**
+ *
+ */
 function load_assets() {
-
-
 	wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
 	wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
 	wp_register_script( 'wpirc_min_js', plugins_url( PATHS['dist']['js'] . WP_IRC_JS_MIN ), [ 'jquery' ] );
@@ -171,9 +206,5 @@ function load_assets() {
 	wp_enqueue_script( 'wpirc_js' );
 	wp_enqueue_style( 'wpirc_css' );
 
-
-	//wp_localize_script( 'wpirc_js', 'irc_info', json_encode( PATHS ) );
-
-	//}
 
 }

@@ -18,41 +18,15 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-.wp-bom-admin {
+
+
+.wp-irc-settings {
 
 }
 
-.wp-bom {
-    text-align: left;
-}
+input[type="number"] {
 
-.wp-bom-settings .fa {
-    font: 'Lato', sans-serif;
+	max-width: 75px;
 
 }
 
-.wp-bom.settings-page {
-    width: 100%;
-}
-
-.wp-bom.settings-page.sidebar {
-    float: right;
-    max-width: 30%;
-    width: 100%;
-}
-
-.wp-bom-settings .wc-label {
-    width: 33%;
-    display: inline-block;
-}
-
-.wp-bom-settings .wc-field {
-
-    display: inline-block;
-}
-
-.form_update_ouput {
-    display: block;
-    font-size: 2em;
-    color: #00ff00;
-}
