@@ -8,7 +8,6 @@
 
 namespace Netraa\WPIRC;
 
-use Netraa\WPB\SettingsAPI;
 use WP_Post;
 
 class Settings {
@@ -32,19 +31,19 @@ class Settings {
 		//initialize settings
 		$this->settings_api->admin_init();
 
-		//var_dump( get_option( 'wedevs_basics' ) );
+		//var_dump( get_option( 'wpirc_basics' ) );
 	}
 
 	function get_settings_sections() {
 
 		$sections = [
 			[
-				'id'    => 'wcb_settings',
-				'title' => __( 'Basic Settings', 'wedevs' ),
+				'id'    => 'wp_irc_settings',
+				'title' => __( 'Basic Settings', 'wpirc' ),
 			],
 			[
-				'id'    => 'wcb_advanced',
-				'title' => __( 'Advanced Settings', 'wedevs' ),
+				'id'    => 'wp_irc_logins',
+				'title' => __( 'Advanced Settings', 'wpirc' ),
 			],
 			[
 				'id'    => 'wcb_others',
@@ -82,54 +81,60 @@ class Settings {
 		}
 
 
+		require __DIR__ . '/Database.php';
+
+		$db              = new Database();
+		$set             = $db->query();
+		echo json_encode( $set ),
+
 		$settings_fields = [
-			'wcb_settings' => [
+			'wp_irc_settings' => [
 
 				[
 					'name'              => 'failed_logins',
-					'label'             => __( 'Failed Logins for Ban', 'wedevs' ),
-					'desc'              => __( 'Number field with validation callback `intval`', 'wedevs' ),
+					'label'             => __( 'Failed Logins for Ban', 'wpirc' ),
+					'desc'              => __( 'Number field with validation callback `intval`', 'wpirc' ),
 					'type'              => 'number',
 					'default'           => 'Title',
 					'sanitize_callback' => 'intval',
 				],
 				[
 					'name'  => 'Warning Text',
-					'label' => __( 'Login Warning Text', 'wedevs' ),
-					'desc'  => __( 'Textarea description', 'wedevs' ),
+					'label' => __( 'Login Warning Text', 'wpirc' ),
+					'desc'  => __( 'Textarea description', 'wpirc' ),
 					'type'  => 'textarea',
 				],
 				[
 					'name'  => 'Day No. Parameter',
-					'label' => __( 'Day No. Parameter', 'wedevs' ),
-					'desc'  => __( 'Checkbox Label', 'wedevs' ),
+					'label' => __( 'Day No. Parameter', 'wpirc' ),
+					'desc'  => __( 'Checkbox Label', 'wpirc' ),
 					'type'  => 'checkbox',
 				],
 
 				[
 					'name'  => 'Secret Key',
-					'label' => __( 'Secret Key', 'wedevs' ),
-					'desc'  => __( 'Checkbox Label', 'wedevs' ),
+					'label' => __( 'Secret Key', 'wpirc' ),
+					'desc'  => __( 'Checkbox Label', 'wpirc' ),
 					'type'  => 'checkbox',
 				],
 				[
 					'name'  => 'Enable Cloak on Log Out',
-					'label' => __( 'Secret Key', 'wedevs' ),
-					'desc'  => __( 'Checkbox Label', 'wedevs' ),
+					'label' => __( 'Secret Key', 'wpirc' ),
+					'desc'  => __( 'Checkbox Label', 'wpirc' ),
 					'type'  => 'checkbox',
 				],
 				[
 					'name'              => 'Secret Parameter',
-					'label'             => __( 'Secret Key ', 'wedevs' ),
-					'desc'              => __( '&sk=*this-field*', 'wedevs' ),
+					'label'             => __( 'Secret Key ', 'wpirc' ),
+					'desc'              => __( '&sk=*this-field*', 'wpirc' ),
 					'type'              => 'text',
 					'default'           => '',
 					'sanitize_callback' => 'intval',
 				],
 				[
 					'name'    => 'radio',
-					'label'   => __( 'Radio Button', 'wedevs' ),
-					'desc'    => __( 'A radio button', 'wedevs' ),
+					'label'   => __( 'Radio Button', 'wpirc' ),
+					'desc'    => __( 'A radio button', 'wpirc' ),
 					'type'    => 'radio',
 					'options' => [
 						'yes' => 'Yes',
@@ -138,8 +143,8 @@ class Settings {
 				],
 				[
 					'name'    => 'multicheck',
-					'label'   => __( 'Multile checkbox', 'wedevs' ),
-					'desc'    => __( 'Multi checkbox description', 'wedevs' ),
+					'label'   => __( 'Multile checkbox', 'wpirc' ),
+					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
 					'type'    => 'multicheck',
 					'options' => [
 						'one'   => 'One',
@@ -150,8 +155,8 @@ class Settings {
 				],
 				[
 					'name'    => 'selectbox',
-					'label'   => __( 'A Dropdown', 'wedevs' ),
-					'desc'    => __( 'Dropdown description', 'wedevs' ),
+					'label'   => __( 'A Dropdown', 'wpirc' ),
+					'desc'    => __( 'Dropdown description', 'wpirc' ),
 					'type'    => 'select',
 					'default' => 'no',
 					'options' => [
@@ -162,48 +167,47 @@ class Settings {
 				],
 				[
 					'name'    => 'password',
-					'label'   => __( 'Password', 'wedevs' ),
-					'desc'    => __( 'Password description', 'wedevs' ),
+					'label'   => __( 'Password', 'wpirc' ),
+					'desc'    => __( 'Password description', 'wpirc' ),
 					'type'    => 'password',
 					'default' => '',
 				],
 				[
 					'name'    => 'file',
-					'label'   => __( 'File', 'wedevs' ),
-					'desc'    => __( 'File description', 'wedevs' ),
+					'label'   => __( 'File', 'wpirc' ),
+					'desc'    => __( 'File description', 'wpirc' ),
 					'type'    => 'file',
 					'default' => '',
 					'options' => [
 						'button_label' => 'Choose Image',
 					],
 				],
-			],
-			'wcb_advanced' => [
+
 				[
 					'name'    => 'color',
-					'label'   => __( 'Color', 'wedevs' ),
-					'desc'    => __( 'Color description', 'wedevs' ),
+					'label'   => __( 'Color', 'wpirc' ),
+					'desc'    => __( 'Color description', 'wpirc' ),
 					'type'    => 'color',
 					'default' => '',
 				],
 				[
 					'name'    => 'password',
-					'label'   => __( 'Password', 'wedevs' ),
-					'desc'    => __( 'Password description', 'wedevs' ),
+					'label'   => __( 'Password', 'wpirc' ),
+					'desc'    => __( 'Password description', 'wpirc' ),
 					'type'    => 'password',
 					'default' => '',
 				],
 				[
 					'name'    => 'wysiwyg',
-					'label'   => __( 'Advanced Editor', 'wedevs' ),
-					'desc'    => __( 'WP_Editor description', 'wedevs' ),
+					'label'   => __( 'Advanced Editor', 'wpirc' ),
+					'desc'    => __( 'WP_Editor description', 'wpirc' ),
 					'type'    => 'wysiwyg',
 					'default' => '',
 				],
 				[
 					'name'    => 'multicheck',
-					'label'   => __( 'Multile checkbox', 'wedevs' ),
-					'desc'    => __( 'Multi checkbox description', 'wedevs' ),
+					'label'   => __( 'Multile checkbox', 'wpirc' ),
+					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
 					'type'    => 'multicheck',
 					'default' => [ 'one' => 'one', 'four' => 'four' ],
 					'options' => [
@@ -215,8 +219,8 @@ class Settings {
 				],
 				[
 					'name'    => 'selectbox',
-					'label'   => __( 'A Dropdown', 'wedevs' ),
-					'desc'    => __( 'Dropdown description', 'wedevs' ),
+					'label'   => __( 'A Dropdown', 'wpirc' ),
+					'desc'    => __( 'Dropdown description', 'wpirc' ),
 					'type'    => 'select',
 					'options' => [
 						'yes' => 'Yes',
@@ -225,43 +229,41 @@ class Settings {
 				],
 				[
 					'name'    => 'password',
-					'label'   => __( 'Password', 'wedevs' ),
-					'desc'    => __( 'Password description', 'wedevs' ),
+					'label'   => __( 'Password', 'wpirc' ),
+					'desc'    => __( 'Password description', 'wpirc' ),
 					'type'    => 'password',
 					'default' => '',
 				],
 				[
 					'name'    => 'file',
-					'label'   => __( 'File', 'wedevs' ),
-					'desc'    => __( 'File description', 'wedevs' ),
+					'label'   => __( 'File', 'wpirc' ),
+					'desc'    => __( 'File description', 'wpirc' ),
 					'type'    => 'file',
 					'default' => '',
 				],
-			],
-			'wcb_others'   => [
 				[
 					'name'    => 'text',
-					'label'   => __( 'Text Input', 'wedevs' ),
-					'desc'    => __( 'Text input description', 'wedevs' ),
+					'label'   => __( 'Text Input', 'wpirc' ),
+					'desc'    => __( 'Text input description', 'wpirc' ),
 					'type'    => 'text',
 					'default' => 'Title',
 				],
 				[
 					'name'  => 'textarea',
-					'label' => __( 'Textarea Input', 'wedevs' ),
-					'desc'  => __( 'Textarea description', 'wedevs' ),
+					'label' => __( 'Textarea Input', 'wpirc' ),
+					'desc'  => __( 'Textarea description', 'wpirc' ),
 					'type'  => 'textarea',
 				],
 				[
 					'name'  => 'checkbox',
-					'label' => __( 'Checkbox', 'wedevs' ),
-					'desc'  => __( 'Checkbox Label', 'wedevs' ),
+					'label' => __( 'Checkbox', 'wpirc' ),
+					'desc'  => __( 'Checkbox Label', 'wpirc' ),
 					'type'  => 'checkbox',
 				],
 				[
 					'name'    => 'radio',
-					'label'   => __( 'Radio Button', 'wedevs' ),
-					'desc'    => __( 'A radio button', 'wedevs' ),
+					'label'   => __( 'Radio Button', 'wpirc' ),
+					'desc'    => __( 'A radio button', 'wpirc' ),
 					'type'    => 'radio',
 					'options' => [
 						'yes' => 'Yes',
@@ -270,8 +272,8 @@ class Settings {
 				],
 				[
 					'name'    => 'multicheck',
-					'label'   => __( 'Multile checkbox', 'wedevs' ),
-					'desc'    => __( 'Multi checkbox description', 'wedevs' ),
+					'label'   => __( 'Multile checkbox', 'wpirc' ),
+					'desc'    => __( 'Multi checkbox description', 'wpirc' ),
 					'type'    => 'multicheck',
 					'options' => [
 						'one'   => 'One',
@@ -282,8 +284,8 @@ class Settings {
 				],
 				[
 					'name'    => 'selectbox',
-					'label'   => __( 'A Dropdown', 'wedevs' ),
-					'desc'    => __( 'Dropdown description', 'wedevs' ),
+					'label'   => __( 'A Dropdown', 'wpirc' ),
+					'desc'    => __( 'Dropdown description', 'wpirc' ),
 					'type'    => 'select',
 					'options' => [
 						'yes' => 'Yes',
@@ -292,18 +294,21 @@ class Settings {
 				],
 				[
 					'name'    => 'password',
-					'label'   => __( 'Password', 'wedevs' ),
-					'desc'    => __( 'Password description', 'wedevs' ),
+					'label'   => __( 'Password', 'wpirc' ),
+					'desc'    => __( 'Password description', 'wpirc' ),
 					'type'    => 'password',
 					'default' => '',
 				],
 				[
 					'name'    => 'file',
-					'label'   => __( 'File', 'wedevs' ),
-					'desc'    => __( 'File description', 'wedevs' ),
+					'label'   => __( 'File', 'wpirc' ),
+					'desc'    => __( 'File description', 'wpirc' ),
 					'type'    => 'file',
 					'default' => '',
 				],
+			],
+			'wp_irc_logins'   => [
+
 			],
 		];
 

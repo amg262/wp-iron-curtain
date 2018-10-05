@@ -32,7 +32,7 @@ if ( ! defined( 'WPINC' ) ) {
 define( "DEFAULT_LOG", __DIR__ . "/assets/default.log" );
 
 
-const WP_IRC_TBL   = 'wp_irc_login';
+define( 'WP_IRC_TBL', 'wp_irc_login' );
 const WP_IRC_LOCAL = 'http://wp.local';
 
 const WP_IRC_JS      = 'wp-irc.js';
@@ -165,8 +165,6 @@ function load_assets() {
 	wp_register_script( 'wpirc_js', plugins_url( PATHS['assets']['js'] . WP_IRC_JS, __FILE__ ), [ 'jquery' ] );
 	wp_register_style( 'wpirc_min_css', plugins_url( PATHS['dist']['css'] . WP_IRC_MIN_CSS, __FILE__ ) );
 	wp_register_style( 'wpirc_css', plugins_url( PATHS['assets']['css'] . WP_IRC_CSS, __FILE__ ) );
-
-	//if ( WP_IRC_PROD === true ) {
 	wp_enqueue_script( 'wpirc_min_js' );
 	wp_enqueue_style( 'wpirc_min_css' );
 	//} else {
@@ -174,7 +172,7 @@ function load_assets() {
 	wp_enqueue_style( 'wpirc_css' );
 
 
-	wp_localize_script( 'wpirc_js', 'irc_info', json_encode( PATHS ) );
+	//wp_localize_script( 'wpirc_js', 'irc_info', json_encode( PATHS ) );
 
 	//}
 

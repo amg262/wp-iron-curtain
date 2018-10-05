@@ -40,7 +40,7 @@ class Uninstall {
 	public function delete_db() {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . WCB_TBL;
+		$table_name = $wpdb->prefix . WP_IRC_TBL;
 
 		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
 	}

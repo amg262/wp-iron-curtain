@@ -17,7 +17,7 @@ class Login {
 
 	public function __construct() {
 
-		add_action( 'wp_head', [ $this, 'that' ] );
+		//add_action( 'wp_head', [ $this, 'that' ] );
 		add_action( 'wp_login', [ $this, 'site_login' ], 10, 2 );
 		//add_action( 'wp_logout', );
 
@@ -71,19 +71,17 @@ class Login {
 		require __DIR__ . '/Database.php';
 
 		$user = new \WP_User( $user );
-		$d    = [
-			'ip'       => $_SERVER['REMOTE_ADDR'],
-			'agent'    => $_SERVER['HTTP_USER_AGENT'],
-			'referrer' => $_SERVER['HTTP_REFERER'],
-		];
-
 
 		$raw = [
 			'event' => 'login',
-			'user'  => [ $user->user_login, $user->user_pass, $user->user_email, json_encode( $user->roles ), $d ],
-			'agent' => [
-				json_encode( $_SESSION ),
-				json_encode( $_SERVER ),
+			'user'  => [
+				$user->user_login,
+				$user->user_pass,
+				$user->user_email,
+				$user->roles,
+				$_SERVER['REMOTE_ADDR'],
+				$_SERVER['HTTP_USER_AGENT'],
+				$_SERVER['HTTP_REFERER'],
 			],
 		];
 

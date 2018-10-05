@@ -57,7 +57,6 @@ class Database {
 		$wpdb->insert( $table_name, [
 			'event'  => $args['event'],
 			'user'   => json_encode( $args['user'] ),
-			'agent'  => json_encode( $args['agent'] ),
 			'time'   => current_time( 'mysql' ),
 			'active' => - 1,
 		] );
@@ -96,6 +95,18 @@ class Database {
 
 		//$q = "SELECT * FROM " . $table_name . " WHERE id > 0  ;";
 		$wpdb->query( "DROP TABLE IF EXISTS $table_name ;" );
+	}
+
+	function query() {
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wp_irc_login';
+
+		$sql = "SELECT * FROM $table_name ;";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+		return dbDelta( $sql );
 	}
 
 	/**
@@ -137,7 +148,6 @@ class Database {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
 	}
-
 
 
 }
